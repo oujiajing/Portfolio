@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-访问终端显示的本地地址。发布前运行 `npm run build`，然后用 `npm run preview` 检查构建产物。
+访问终端显示的本地地址（包含 `/Portfolio/` 路径）。发布前运行 `npm run build`，然后用 `npm run preview` 检查构建产物。
 
 ## 内容与图片
 
@@ -20,4 +20,4 @@ npm run dev
 
 ## GitHub Pages
 
-本站是独立项目，目标仓库为 `oujiajing/oujiajing.github.io`。`astro.config.mjs` 已按用户站点根域名配置；仓库 Settings → Pages 的发布来源选择 GitHub Actions。部署工作流位于 `.github/workflows/deploy.yml`，推送到 `main` 后会自动构建和发布。
+本站是独立项目，仓库为 `oujiajing/Portfolio`，目标地址为 `https://oujiajing.github.io/Portfolio/`。`astro.config.mjs` 已配置项目站点的基础路径；仓库 Settings → Pages 的发布来源选择 GitHub Actions。部署工作流位于 `.github/workflows/deploy.yml`，推送到 `main` 后会自动构建和发布。

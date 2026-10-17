@@ -18,6 +18,8 @@ export type Project = {
   gallery: { src: string; alt: string; caption: string }[];
 };
 
+const image = (filename: string) => `${import.meta.env.BASE_URL}images/${filename}`;
+
 export const projects: Project[] = [
   {
     slug: 'safeguard-agent',
@@ -26,10 +28,10 @@ export const projects: Project[] = [
     category: 'AI 产品 · 施工安全',
     subtitle: '施工安全隐患整改Agent',
     summary: '基于多模态理解与知识检索的施工安全助手，识别现场隐患、关联法规条文，并支持人工确认生成整改建议。',
-    cover: '/images/cover-safeguard-agent.png',
+    cover: image('cover-safeguard-agent.png'),
     coverAlt: '施工现场隐患识别、法规依据与人工确认的概念封面',
     caseImage: {
-      src: '/images/safeguard-architecture.png',
+      src: image('safeguard-architecture.png'),
       alt: '施工安全隐患整改Agent的系统架构图',
       caption: '系统架构图',
     },
@@ -59,12 +61,12 @@ export const projects: Project[] = [
     ],
     gallery: [
       {
-        src: '/images/safeguard-review.png',
+        src: image('safeguard-review.png'),
         alt: '施工安全隐患整改Agent的隐患候选与人工复核界面',
         caption: '真实产品界面 · 演示场景数据',
       },
       {
-        src: '/images/safeguard-confirmation.jpg',
+        src: image('safeguard-confirmation.jpg'),
         alt: '施工安全隐患整改Agent的写工具参数与人工确认卡片',
         caption: '写工具待确认界面：此时尚未执行业务写入',
       },
@@ -77,10 +79,10 @@ export const projects: Project[] = [
     category: 'B 端产品 · 安全生产',
     subtitle: '安全生产数字化平台',
     summary: '面向企业的安全生产管理系统，覆盖隐患上报、任务分派、整改跟踪与闭环，提升现场管理效率与过程透明度。',
-    cover: '/images/cover-safeflow.png',
+    cover: image('cover-safeflow.png'),
     coverAlt: '现场检查、隐患整改与数据看板相连的概念封面',
     caseImage: {
-      src: '/images/safeflow-architecture.png',
+      src: image('safeflow-architecture.png'),
       alt: '安全生产数字化平台的技术架构图',
       caption: '技术架构图',
     },
@@ -110,12 +112,12 @@ export const projects: Project[] = [
     ],
     gallery: [
       {
-        src: '/images/safeflow-dashboard.png',
+        src: image('safeflow-dashboard.png'),
         alt: '安全生产数字化平台的监控中心界面',
         caption: '真实产品界面 · 演示场景数据',
       },
       {
-        src: '/images/safeflow-data-analysis.png',
+        src: image('safeflow-data-analysis.png'),
         alt: '安全生产数字化平台的数据分析中心界面',
         caption: '数据分析中心 · 演示场景数据',
       },
@@ -128,10 +130,10 @@ export const projects: Project[] = [
     category: '效率工具 · 票据管理',
     subtitle: '票据管理工作台',
     summary: '基于原生解析与 OCR 的发票整理助手，自动识别发票信息，生成结构化台账，并支持批量处理与多格式导出，提升财务与报销的整理效率。',
-    cover: '/images/cover-invoice-assistant.png',
+    cover: image('cover-invoice-assistant.png'),
     coverAlt: '票据解析、查重和整理导出的概念封面',
     caseImage: {
-      src: '/images/invoice-architecture.png',
+      src: image('invoice-architecture.png'),
       alt: '票据管理工作台的系统架构图',
       caption: '系统架构图',
     },
@@ -161,12 +163,12 @@ export const projects: Project[] = [
     ],
     gallery: [
       {
-        src: '/images/invoice-report.png',
+        src: image('invoice-report.png'),
         alt: '票据管理工作台的统计报表界面',
         caption: '真实产品界面 · 示例票据',
       },
       {
-        src: '/images/invoice-rename.png',
+        src: image('invoice-rename.png'),
         alt: '票据管理工作台的文件重命名页面',
         caption: '文件重命名与导出预览 · 示例票据',
       },
