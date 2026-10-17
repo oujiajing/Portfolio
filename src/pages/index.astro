@@ -47,12 +47,13 @@ import { projects } from '../data/projects';
       <div class="project-list">
         {projects.map((project, index) => (
           <article class:list={['project-row', { 'project-row--reverse': index % 2 === 1 }]}>
-            <button class="project-media" type="button" data-project-open={project.slug} aria-label={`查看 ${project.subtitle} 案例`}>
+            <button class="project-media" type="button" data-project-open={project.slug} aria-label={`查看 ${project.title} 案例`}>
               <img src={project.cover} alt={project.coverAlt} loading="lazy" />
             </button>
             <div class="project-copy">
               <p class="project-kicker"><span>{project.number}</span> {project.category}</p>
-              <h3>{project.subtitle}</h3>
+              <h3>{project.title}</h3>
+              <p class="project-tagline">{project.subtitle}</p>
               <p class="project-summary">{project.summary}</p>
               <ul class="tag-list" aria-label="项目关键词">
                 {project.tags.map((tag) => <li>{tag}</li>)}
