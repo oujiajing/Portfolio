@@ -1,0 +1,154 @@
+---
+import { projects } from '../data/projects';
+---
+
+<dialog class="project-dialog" id="project-dialog" aria-label="项目详情">
+  <div class="dialog-shell">
+    <div class="dialog-header">
+      <div class="dialog-progress"><strong data-project-counter>01 / 03</strong><span>左右切换查看更多</span></div>
+      <div class="dialog-controls">
+        <button type="button" class="dialog-icon-button" data-project-prev aria-label="上一个项目">←</button>
+        <button type="button" class="dialog-icon-button" data-project-next aria-label="下一个项目">→</button>
+        <button type="button" class="dialog-icon-button" data-project-close aria-label="关闭项目详情">×</button>
+      </div>
+    </div>
+    <div class="dialog-scroll">
+      {projects.map((project) => (
+        <article class="dialog-project" data-project-panel={project.slug} hidden>
+          <p class="dialog-kicker">{project.category}</p>
+          <h2>{project.title}</h2>
+          <p class="dialog-tagline">{project.subtitle}</p>
+          <p class="dialog-summary">{project.summary}</p>
+
+          <figure class="dialog-cover">
+            <button class="dialog-image-trigger" type="button" data-image-preview aria-label={`放大预览：${project.caseImage.alt}`} aria-haspopup="dialog">
+              <img src={project.caseImage.src} alt={project.caseImage.alt} loading="lazy" />
+            </button>
+            <figcaption>{project.caseImage.caption}</figcaption>
+          </figure>
+          <div class="dialog-gallery">
+            {project.gallery.map((item) => (
+              <figure>
+                <button class="dialog-image-trigger" type="button" data-image-preview aria-label={`放大预览：${item.alt}`} aria-haspopup="dialog">
+                  <img src={item.src} alt={item.alt} loading="lazy" />
+                </button>
+                <figcaption>{item.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div class="dialog-facts">
+            <section class="dialog-fact">
+              <h3>项目背景</h3>
+              <p>{project.context}</p>
+            </section>
+            <section class="dialog-fact">
+              <h3>核心问题</h3>
+              <p>{project.problem}</p>
+            </section>
+            <section class="dialog-fact dialog-fact--value">
+              <h3>产品价值</h3>
+              <p>{project.value}</p>
+            </section>
+            <section class="dialog-fact">
+              <h3>产品决策</h3>
+              <div class="dialog-decision-list">
+                {project.decisions.map((decision) => (
+                  <div><strong>{decision.title}</strong><p>{decision.body}</p></div>
+                ))}
+              </div>
+            </section>
+            <section class="dialog-fact">
+              <h3>已验证的部分</h3>
+              <ul>{project.evidence.map((item) => <li>{item}</li>)}</ul>
+            </section>
+          </div>
+
+          <div class="dialog-footer">
+            <a href={project.repo} target="_blank" rel="noopener noreferrer">查看 GitHub 仓库 ↗</a>
+            <button type="button" data-project-next>下一个项目 →</button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</dialog>
+
+<dialog class="image-preview" id="image-preview" aria-label="图片放大预览">
+  <div class="image-preview-shell">
+    <div class="image-preview-header">
+      <p data-preview-caption></p>
+      <button type="button" class="dialog-icon-button" data-preview-close aria-label="关闭图片预览">×</button>
+    </div>
+    <div class="image-preview-stage"><img data-preview-full alt="" /></div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('#project-dialog');
+  const previewDialog = document.querySelector<HTMLDialogElement>('#image-preview');
+  const previewImage = previewDialog?.querySelector<HTMLImageElement>('[data-preview-full]');
+  const previewCaption = previewDialog?.querySelector<HTMLElement>('[data-preview-caption]');
+  const scrollArea = dialog?.querySelector<HTMLElement>('.dialog-scroll');
+  const panels = [...(dialog?.querySelectorAll<HTMLElement>('[data-project-panel]') ?? [])];
+  const counter = dialog?.querySelector<HTMLElement>('[data-project-counter]');
+  let currentIndex = 0;
+  let openingTrigger: HTMLElement | null = null;
+  let previewTrigger: HTMLButtonElement | null = null;
+
+  function showProject(index: number) {
+    if (!dialog || !scrollArea || !counter || panels.length === 0) return;
+    currentIndex = (index + panels.length) % panels.length;
+    panels.forEach((panel, panelIndex) => { panel.hidden = panelIndex !== currentIndex; });
+    counter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+    dialog.setAttribute('aria-label', `${panels[currentIndex].querySelector('h2')?.textContent ?? '项目'}详情`);
+    scrollArea.scrollTop = 0;
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-project-open]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const index = panels.findIndex((panel) => panel.dataset.projectPanel === trigger.dataset.projectOpen);
+      if (!dialog || index < 0) return;
+      openingTrigger = trigger;
+      showProject(index);
+      dialog.showModal();
+      dialog.querySelector<HTMLButtonElement>('[data-project-close]')?.focus();
+    });
+  });
+
+  dialog?.querySelectorAll<HTMLButtonElement>('[data-project-prev]').forEach((button) => {
+    button.addEventListener('click', () => showProject(currentIndex - 1));
+  });
+  dialog?.querySelectorAll<HTMLButtonElement>('[data-project-next]').forEach((button) => {
+    button.addEventListener('click', () => showProject(currentIndex + 1));
+  });
+  dialog?.querySelector<HTMLButtonElement>('[data-project-close]')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('close', () => openingTrigger?.focus());
+  dialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); showProject(currentIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); showProject(currentIndex + 1); }
+  });
+
+  dialog?.querySelectorAll<HTMLButtonElement>('[data-image-preview]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const source = button.querySelector('img');
+      if (!previewDialog || !previewImage || !previewCaption || !source) return;
+      previewTrigger = button;
+      previewImage.src = source.currentSrc || source.src;
+      previewImage.alt = source.alt;
+      previewCaption.textContent = button.closest('figure')?.querySelector('figcaption')?.textContent ?? '';
+      previewDialog.showModal();
+      previewDialog.querySelector<HTMLButtonElement>('[data-preview-close]')?.focus();
+    });
+  });
+
+  previewDialog?.querySelector<HTMLButtonElement>('[data-preview-close]')?.addEventListener('click', () => previewDialog.close());
+  previewDialog?.addEventListener('click', (event) => {
+    if (event.target === previewDialog) previewDialog.close();
+  });
+  previewDialog?.addEventListener('close', () => {
+    previewImage?.removeAttribute('src');
+    previewTrigger?.focus();
+    previewTrigger = null;
+  });
+</script>
