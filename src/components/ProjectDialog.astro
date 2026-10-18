@@ -17,8 +17,7 @@ import { projects } from '../data/projects';
         <article class="dialog-project" data-project-panel={project.slug} hidden>
           <p class="dialog-kicker">{project.category}</p>
           <h2>{project.title}</h2>
-          <p class="dialog-tagline">{project.subtitle}</p>
-          <p class="dialog-summary">{project.summary}</p>
+          <p class="dialog-tagline">{project.detailSubtitle}</p>
 
           <figure class="dialog-cover">
             <button class="dialog-image-trigger" type="button" data-image-preview aria-label={`放大预览：${project.caseImage.alt}`} aria-haspopup="dialog">
@@ -38,6 +37,10 @@ import { projects } from '../data/projects';
           </div>
 
           <div class="dialog-facts">
+            <section class="dialog-fact dialog-fact--positioning">
+              <h3>项目定位</h3>
+              <p>{project.positioning}</p>
+            </section>
             <section class="dialog-fact">
               <h3>项目背景</h3>
               <p>{project.context}</p>
@@ -51,7 +54,7 @@ import { projects } from '../data/projects';
               <p>{project.value}</p>
             </section>
             <section class="dialog-fact">
-              <h3>产品决策</h3>
+              <h3>关键产品决策</h3>
               <div class="dialog-decision-list">
                 {project.decisions.map((decision) => (
                   <div><strong>{decision.title}</strong><p>{decision.body}</p></div>
@@ -60,7 +63,9 @@ import { projects } from '../data/projects';
             </section>
             <section class="dialog-fact">
               <h3>已验证的部分</h3>
-              <ul>{project.evidence.map((item) => <li>{item}</li>)}</ul>
+              <ul class="dialog-evidence-list">
+                {project.evidence.map((item) => <li><strong>{item.label}：</strong>{item.body}</li>)}
+              </ul>
             </section>
           </div>
 

@@ -117,6 +117,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 .dialog-decision-list { display: grid; gap: 14px; }
 .dialog-decision-list strong { color: #203e4d; font-size: 17px; }
 .dialog-decision-list p { margin-top: 3px; }
+.dialog-evidence-list strong { color: #203e4d; font-weight: 800; }
 .dialog-footer { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .dialog-footer a, .dialog-footer button { padding: 8px 14px; border: 1px solid #d7e5e7; border-radius: 100px; background: #fff; color: #476571; font: 700 12px/1.4 var(--sans); cursor: pointer; }
 .dialog-footer a:hover, .dialog-footer button:hover { border-color: #9edddc; color: #0a89a8; }
